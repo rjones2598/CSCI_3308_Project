@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Landing Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="./ref/style.css">
+	<script type="text/javascript" src="./ref/scripts.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+	<nav class="navbar navbar-light bg-light TopNavBar">
+		<a href="#">
+			<button type="button" class="btn btn-outline-dark">Home</button>
+		</a>
+		<a href="#signInModal" class="btn btn-outline-primary" data-toggle="modal" onclick="openModal()">Log in</a>
+	</nav>
+
+	<div id="signInModal" class="modal fade">
+		<div class="modal-dialog modal-login">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="row">
+						<div class="col">
+							<button id="LoginButton" class="btn btn-primary" onclick="openLogIn()">Log&nbspin</button>
+						</div>
+						<div class="col">
+							<button id="SignupButton" class="btn btn-outline-primary" onclick="openSignUp()">Sign&nbspup</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div id="signInDiv">
+						Sign in page here
+					</div>
+					<div id="signUpDiv" class="hidden">
+						Register page here
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+	<div class="col-2"></div>
+
+
+	<div class="col-8" id="pageBody">
+		<br><br><br>
+		<div class="row" id="topRow">
+
+			<div class="col-9">
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" placeholder="Category or Event Name">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button">Search Events</button>
+					</div>
+				</div>	
+			</div>
+			<div class="col-3">
+				Put Logo Here?
+			</div>
+		</div>
+
+		<br>
+
+		<div class="container" id="categories" style="border: 1px solid gray; border-radius: 4px;">
+			<h3>Browse by genre:</h3>
+
+			<div class="row">
+				<div class="col-6" style="border-right: 1px solid gray; border-top: 1px solid gray;">
+					<a href="#">Listing genres</a><br>
+					<a href="#">Listing genres</a><br>
+					<a href="#">Listing genres</a><br>
+					<a href="#">Listing genres</a><br>
+				</div>
+				<div class="col-6" style="border-top: 1px solid gray;">
+					<a href="#">Listing genres</a><br>
+					<a href="#">Listing genres</a><br>
+					<a href="#">Listing genres</a><br>
+					<a href="#">Listing genres</a><br>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="col-2"></div>
+	</div>
+
+
+</body>
+</html>
