@@ -17,20 +17,22 @@
 		<a href="#signInModal" class="btn btn-outline-primary" data-toggle="modal" onclick="openModal()">Log in</a>
 	</nav>
 
-	        <div class="container">
+
+	<div class="container">
         <br/>
+        <div class="row">
+       	<img value="picture" src="../resources/img/defaultProfile.png" class="rounded-circle" alt="Profile Picture" style="width:225px;height:225px;">
         <div class="card">
-            <div class="card bg-light text-dark">
-              <div class="card-body">About me:</div>
+            <div class="card bg-light text-dark" style="width:225px;height:225px;">
+              <div class="card-body"><p>A Short Discription about User</p></div>
             </div>
         </div>
+    	</div>
         <br/>
 
         <a class="btn btn-outline-secondary" href="" role="button">Link</a>
         <br/>
 
-        <img value="picture" src="" class="rounded-circle" alt="Profile Picture" style="width:500px;height:650px;">
-        <br/>
 
 
       	<h4>My Favorite Events</h4>
@@ -60,7 +62,7 @@
         </dir>
         <div class="card-group">
           <div class="card">
-            <img class="card-img-top" src="./resources/img/music.jpg" alt="Card image cap">
+            <img class="card-img-top" src="" alt="Card image cap">
             <div class="card-body" id="interest1">
               <button type="button" onclick="addCard(1)" class="btn btn-primary btn-circle btn-sm">+</button>
               <h5 class="card-title">Event Title</h5>
@@ -68,7 +70,7 @@
             </div>
           </div>
           <div class="card">
-            <img class="card-img-top" src="./resources/img/architecture.jpg" alt="Card image cap">
+            <img class="card-img-top" src="" alt="Card image cap">
             <div class="card-body" id="interest2">
               <button type="button" onclick="addCard(2)" class="btn btn-primary btn-circle btn-sm">+</button>
               <h5 class="card-title">Event Title</h5>
@@ -76,7 +78,7 @@
           </div>
         </div>
         <div class="card">
-          <img class="card-img-top" src="./resources/img/film.jpg" alt="Card image cap">
+          <img class="card-img-top" src="" alt="Card image cap">
           <div class="card-body" id="interest3">
             <button type="button" onclick="addCard(3)" class="btn btn-primary btn-circle btn-sm">+</button>
             <h5 class="card-title">Event Title</h5>
@@ -129,13 +131,13 @@ function deleteCard(div){
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="d-block w-100" src="" alt="First Event" width="400" height="600">
+          <img class="d-block w-100" src="../resources/img/default.png" alt="First Event" width="400" height="600">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="" alt="Second Event" width="400" height="600">
+          <img class="d-block w-100" src="../resources/img/red.png" alt="Second Event" width="400" height="600">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="" alt="Third Event" width="400" height="600">
+          <img class="d-block w-100" src="../resources/img/blue.png" alt="Third Event" width="400" height="600">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
