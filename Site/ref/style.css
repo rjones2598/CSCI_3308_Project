@@ -1,9 +1,22 @@
-.navbar .TopNavBar
-{
-
+#navbar {
+	position: -webkit-sticky; 
+	position: sticky;
+	top: 0;
 }
 
 .hidden
 {
 	display: none;
+}
+
+.sp
+{
+	padding-bottom: 16px;
+}
+
+.sec
+{
+	border-radius: 5px;
+	border: 1px solid black;
+	background: white;
 }

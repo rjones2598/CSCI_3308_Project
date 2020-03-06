@@ -29,3 +29,4 @@ function openSignUp()
 	sSection.classList.remove("hidden")
 	lSection.classList.add("hidden")
 }
+
