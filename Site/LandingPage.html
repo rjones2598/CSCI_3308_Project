@@ -217,13 +217,20 @@
 
 
 				<div class="container sec" id="viewByDate">
-					<br>
 					<div class="row">
+						<div class="col-4" style="border-right: 1px solid black;">
+							<br>
+							<label for="datepicker" class="col-form-label">Pick&nbspa&nbspdate:&nbsp</label>
+							<input data-date-format="mm/dd/yyyy" id="datepicker" onchange="updateDate(this.value)" onload="updateDate(this.value)">
+							<br><br>
+						</div>
+
 						<div class="col">
-							<input data-date-format="mm/dd/yyyy" id="datepicker">
+							<br>
+							<div id="dateEventDisplay"></div>
+							<br>
 						</div>
 					</div>
-					<br>
 				</div><br><br>
 
 
