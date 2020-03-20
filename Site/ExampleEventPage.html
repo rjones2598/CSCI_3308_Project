@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=200px, initial-scale=1.0" />
+		<!-- <meta http-equiv="X-UA-Compatible" content="ie=edge" /> -->
+
+		<!-- Bootstrap Link -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+
+		<title>{{event_name}}</title>
+
+		<style>
+			:root {
+				--p1: #9999ff;
+
+				--light-black: rgb(104, 104, 104);
+
+				--black: #000000;
+				--white: #ffffff;
+
+				--mess-fg: #ffffff;
+				--mess-bg: #497aa3;
+			}
+
+			. {
+				border-radius: 1rem;
+				padding: 20px;
+			}
+
+			.header {
+				text-align: center;
+				padding: 1rem;
+				color: var(--black);
+			}
+
+			.header h1 {
+				padding: 2rem;
+			}
+
+			.subHeader {
+				color: var(--light-black);
+			}
+
+			.subHeader.details {
+				text-align: center;
+			}
+
+			.links {
+				text-align: center;
+			}
+
+			.links button {
+				max-width: 300px;
+				margin: auto;
+			}
+
+			.message {
+				margin: 1rem;
+				padding: 1rem;
+				border-radius: 1rem;
+				background-color: var(--mess-bg);
+				color: var(--mess-fg);
+			}
+
+			.chat {
+				overflow-y: scroll;
+				height: 40rem;
+			}
+
+			.chat_input {
+				margin: 1rem;
+				padding: 2rem;
+			}
+		</style>
+	</head>
+	<body class="container mess-bg-light">
+		<div class="header">
+			<h1>Some Neat Event at Red Rocks</h1>
+		</div>
+
+		<hr />
+
+		<!-- Carousel Row -->
+		<div class="row">
+			<!-- Carousel -->
+			<div
+				id="photo_carousel"
+				class="col carousel slide"
+				data-ride="carousel"
+			>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img
+							src="https://media.9news.com/assets/KUSA/images/7206598c-999a-4a31-9d06-0691675a2a66/7206598c-999a-4a31-9d06-0691675a2a66_1140x641.jpg"
+							class="d-block w-100"
+							alt="Red Rocks Photos"
+						/>
+					</div>
+				</div>
+				<a
+					class="carousel-control-prev"
+					href="#photo_carousel"
+					role="button"
+					data-slide="prev"
+				>
+					<span
+						class="carousel-control-prev-icon"
+						aria-hidden="true"
+					></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a
+					class="carousel-control-next"
+					href="#photo_carousel"
+					role="button"
+					data-slide="next"
+				>
+					<span
+						class="carousel-control-next-icon"
+						aria-hidden="true"
+					></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+
+		<!-- 2nd Row -->
+		<div class="row" style="padding: 2rem">
+			<div class="col">
+				<h4 class="header">Start Date:</h4>
+				<p class="subHeader details">3/13/2020 8:30pm</p>
+				<h4 class="header">End Date:</h4>
+				<p class="subHeader details">3/13/2020 12:30pm</p>
+				<h4 class="header">Location</h4>
+				<p class="subHeader details">Red Rocks Ampitheater</p>
+			</div>
+			<!-- Description -->
+			<div class="col">
+				<h4 class="header">Description:</h4>
+				<p class="subHeader description">
+					Nam molestie molestie maximus. Aliquam dolor elit, tincidunt
+					a fringilla ac, gravida eget metus. Etiam id sem sit amet
+					dui sodales varius. Fusce quis sapien lacinia, tempus lectus
+					sit amet, cursus enim. Proin faucibus efficitur sodales. Nam
+					id quam ullamcorper, suscipit.
+				</p>
+			</div>
+		</div>
+
+		<!-- Tickets & Links row -->
+		<div class="row links">
+			<button
+				type="button"
+				class="btn btn-outline-info"
+				onclick="window.location=#"
+			>
+				Tickets Link
+			</button>
+			<button
+				type="button"
+				class="btn btn-outline-info"
+				onclick="window.location=#"
+			>
+				Band Page
+			</button>
+		</div>
+
+		<hr />
+
+		<!-- Chat Row -->
+		<h3 class="header">Chat:</h3>
+		<div class="row">
+			<div class="container chat">
+				<div class="message">
+					<h5>John Johnson:</h5>
+					<p>Wow this event sounds pretty neat!</p>
+				</div>
+				<div class="message">
+					<h5>Other Name:</h5>
+					<p>Wow this event sounds pretty neat!</p>
+				</div>
+				<div class="message">
+					<h5>Another Name:</h5>
+					<p>
+						Yea this event sounds really cool to go check out! I
+						might bring my grandma!
+					</p>
+				</div>
+				<div class="message">
+					<h5>John Johnson:</h5>
+					<p>Wow this event sounds pretty neat!</p>
+				</div>
+				<div class="message">
+					<h5>Other Name:</h5>
+					<p>Wow this event sounds pretty neat!</p>
+				</div>
+				<div class="message">
+					<h5>Another Name:</h5>
+					<p>
+						Yea this event sounds really cool to go check out! I
+						might bring my grandma!
+					</p>
+				</div>
+			</div>
+			<div class="input-group input-group-lg chat_input">
+				<input
+					type="text"
+					class="form-control"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-lg"
+				/>
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" type="button">
+						Comment
+					</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
