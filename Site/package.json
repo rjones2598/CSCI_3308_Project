@@ -1,18 +1,18 @@
 {
-  "name": "Event Finder",
-  "version": "0.0.1",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "node app.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "ejs": "^3.0.2",
-    "express": "^4.17.1",
-    "express-session": "^1.17.0"
-  }
+	"name": "event_finder",
+	"version": "0.0.1",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "node app.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"ejs": "^3.0.2",
+		"express": "^4.17.1",
+		"express-session": "^1.17.0"
+	}
 }
