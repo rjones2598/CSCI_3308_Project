@@ -6,6 +6,7 @@
 var express = require("express"),
 	app = express();
 
+var db = require("./db");
 var port = process.env.PORT || 8080;
 var env = process.env.NODE_ENV || "dev";
 
@@ -13,7 +14,7 @@ var env = process.env.NODE_ENV || "dev";
 // the app and io as arguments to the returned functions.
 
 require("./config")(app, env);
-require("./routes")(app);
+require("./routes")(app, db);
 
 console.log("Your application is running on http://localhost:" + port);
-app.listen(port);
+module.exports = app.listen(port);
