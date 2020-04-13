@@ -1,6 +1,9 @@
 // Export a function, so that we can pass
 // the app and io instances from the app.js file:
 
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 module.exports = function (app, db) {
 	app.get("/", function (req, res) {
 		console.log("GET: /");
@@ -11,7 +14,7 @@ module.exports = function (app, db) {
 			// && operator checks to see if arrays have elements in common
 			// FIXME: Change table_name & update query
 			let events_query =
-				"SELECT * FROM table_name WHERE category&&(SELECT categories FROM user_table WHERE id=$1);";
+				"SELECT * FROM table_name WHERE category&&(SELECT categories FROM user_table WHERE user_id=$1);";
 
 			db.query(events_query, req.session.user_id)
 				.then((events) => {
@@ -67,6 +70,23 @@ module.exports = function (app, db) {
 		}
 	});
 
+	app.post("/event/:id/attending", function (req, res) {
+		console.log("POST: event/:id/attending");
+
+		if (req.session.loggedIn) {
+			// req.session.user_id
+			// Query is built to append user id to attending array
+			// TODO: Check if this query will actually work
+			let attending_query = `UPDATE event_table SET attending = attending || '{$1}' \
+									WHERE event_id = $2 \
+									AND NOT EXITS (SELECT $1 = ANY ('attending'::int[]));`;
+		} else {
+			console.log("user is not logged in");
+			// TODO: Redirect to login?
+			res.render("/");
+		}
+	});
+
 	//////////////////////////////////////////
 	///////////// USER ROUTES ////////////////
 	//////////////////////////////////////////
@@ -81,25 +101,28 @@ module.exports = function (app, db) {
 			// TODO: Once db is setup uncomment query below
 			// db.query(password_query, req.body.password).then((all_data) => {
 			// 	console.log(all_data);
-			// 	let db_pass = all_data.password;
-			// 	// FIXME: hash req.body.password
-			// 	let hashed_pass = "";
-			// 	// compare hashed and db password
-			// 	if (db_pass == hashed_pass) {
-			// 		console.log("login successful");
-			// 		// Set session variable that can be used in other routes
-			// 		req.session.username = all_data.username;
-			// 		req.session.user_id = all_data.user_id;
-			// 		req.session.email = all_data.email;
-			// 		req.session.loggedIn = true;
 
-			// 		// TODO: Render Home page, Possibly send user logged in state too?
-			// 		res.render("/");
-			// 	} else {
-			// 		console.log("login failed");
-			// 		req.session.loggedIn = false;
-			// 		res.render("login");
-			// 	}
+			// 	// Load hash from your password DB.
+			// 	let db_pass = all_data.password;
+
+			// 	bcrypt.compare(req.body.password, db_pass, function (err, result) {
+			// 		// result == true
+			// 		if (result) {
+			// 			console.log("login successful");
+			// 			// Set session variable that can be used in other routes
+			// 			req.session.username = all_data.username;
+			// 			req.session.user_id = all_data.user_id;
+			// 			req.session.email = all_data.email;
+			// 			req.session.loggedIn = true;
+
+			// 			// TODO: Render Home page, Possibly send user logged in state too?
+			// 			res.render("/");
+			// 		} else {
+			// 			console.log("login failed");
+			// 			req.session.loggedIn = false;
+			// 			res.render("login");
+			// 		}
+			// 	});
 			// });
 		} else {
 			console.log("Already logged in!");
@@ -108,11 +131,34 @@ module.exports = function (app, db) {
 		}
 	});
 
+	app.post("/logout", function (req, res) {
+		if (req.session) {
+			// If there is something to clear, clear it.
+			req.session.username = undefined;
+			req.session.user_id = undefined;
+			req.session.email = undefined;
+			req.session.loggedIn = false;
+		} else {
+			// if there is nothing to clear don't do anything
+		}
+		res.render("/");
+	});
+
 	app.post("/create/user", function (req, res) {
 		console.log("POST: user/create");
 
-		let new_user_query = `INSERT INTO table_name (username, password, email) \
-			VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM table_name WHERE email = $3);`;
+		bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {
+			let new_user_query = `INSERT INTO table_name (username, password, email) \
+				VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM table_name WHERE email = $3);`;
+
+			db.query(new_user_query, req.body.username, hash, req.body.email)
+				.then((res) => {
+					console.log(res);
+				})
+				.catch((err) => {
+					console.log("User not added to database: Error: ", err);
+				});
+		});
 
 		// TODO: add db query once db is setup
 		// update session variables with new info
@@ -125,7 +171,7 @@ module.exports = function (app, db) {
 		console.log("GET: user/:user_id");
 
 		// FIXME: Change table_name & update query
-		let user_query = "SELECT * FROM table_name WHERE id=$1;";
+		let user_query = "SELECT * FROM table_name WHERE user_id=$1;";
 
 		// db.query(user_query, req.params.user_id)
 		// 	.then((user_data) => {

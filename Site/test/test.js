@@ -57,4 +57,36 @@ describe("Authorized Routes Unit Test", function () {
 				done();
 			});
 	});
+
+	it("should create an account", function (done) {
+		agent
+			.post("/create/user")
+			.send({
+				name: "johnny doe",
+				username: "test_user",
+				password: "a_good_password",
+				email: "test_email@test.com",
+			})
+			.then((res) => {
+				// First check status code
+				expect(res).to.have.status(200);
+
+				// Next check if user logged in
+				expect(res).to.have.cookie("loggedIn").to.be.true;
+
+				done();
+			});
+	});
+
+	it("should allow this login attempt", function (done) {
+		agent
+			.post("/login")
+			.send({ username: "good_username", password: "a_good_password" })
+			.then((res) => {
+				expect(res).to.have.cookie("sessionid");
+				done();
+			});
+	});
+
+	it("should ");
 });
