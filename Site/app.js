@@ -4,7 +4,7 @@
 // 'node app.js' in your terminal
 
 var express = require("express"),
-	app = express();
+var app = express();
 
 var db = require("./db");
 var port = process.env.PORT || 8080;
