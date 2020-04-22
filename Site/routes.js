@@ -1,12 +1,11 @@
 // Export a function, so that we can pass
 // the app and io instances from the app.js file:
-
-const bcrypt = require("bcrypt");
+// import { compare, hash as _hash } from "bcrypt";
+var { compare, hash } = require("bcrypt");
 const saltRounds = 10;
 
 module.exports = function (app, db) {
 	app.get("/", function (req, res) {
-		console.log("GET: /");
 		// Render views/home.html
 		if (req.session.loggedIn) {
 			// Find events based on user
@@ -37,7 +36,6 @@ module.exports = function (app, db) {
 	///////////////////////////////////////////
 
 	app.get("/event/:id", function (req, res) {
-		console.log("GET: /event/:id");
 		// console.log(req.params.id);
 
 		// FIXME: Change table_name & update query
@@ -71,8 +69,6 @@ module.exports = function (app, db) {
 	});
 
 	app.post("/event/:id/attending", function (req, res) {
-		console.log("POST: event/:id/attending");
-
 		if (req.session.loggedIn) {
 			// req.session.user_id
 			// Query is built to append user id to attending array
@@ -92,38 +88,35 @@ module.exports = function (app, db) {
 	//////////////////////////////////////////
 
 	app.post("/login", function (req, res) {
-		console.log("POST: login");
-
 		if (!req.session.loggedIn) {
 			// FIXME: Change table_name & update query
 			let password_query = "SELECT * FROM table_name WHERE username=$1;";
 
-			// TODO: Once db is setup uncomment query below
-			// db.query(password_query, req.body.password).then((all_data) => {
-			// 	console.log(all_data);
+			db.query(password_query, req.body.password).then((all_data) => {
+				// 	console.log(all_data);
 
-			// 	// Load hash from your password DB.
-			// 	let db_pass = all_data.password;
+				// Load hash from your password DB.
+				let db_pass = all_data.password;
 
-			// 	bcrypt.compare(req.body.password, db_pass, function (err, result) {
-			// 		// result == true
-			// 		if (result) {
-			// 			console.log("login successful");
-			// 			// Set session variable that can be used in other routes
-			// 			req.session.username = all_data.username;
-			// 			req.session.user_id = all_data.user_id;
-			// 			req.session.email = all_data.email;
-			// 			req.session.loggedIn = true;
+				compare(req.body.password, db_pass, function (err, result) {
+					// result == true
+					if (result) {
+						console.log("login successful");
+						// Set session variable that can be used in other routes
+						req.session.username = all_data.username;
+						req.session.user_id = all_data.user_id;
+						req.session.email = all_data.email;
+						req.session.loggedIn = true;
 
-			// 			// TODO: Render Home page, Possibly send user logged in state too?
-			// 			res.render("/");
-			// 		} else {
-			// 			console.log("login failed");
-			// 			req.session.loggedIn = false;
-			// 			res.render("login");
-			// 		}
-			// 	});
-			// });
+						// TODO: Render Home page, Possibly send user logged in state too?
+						res.render("/");
+					} else {
+						console.log("login failed");
+						req.session.loggedIn = false;
+						res.render("login");
+					}
+				});
+			});
 		} else {
 			console.log("Already logged in!");
 			// TODO: Render Home page, Possibly send user logged in state too?
@@ -145,13 +138,11 @@ module.exports = function (app, db) {
 	});
 
 	app.post("/create/user", function (req, res) {
-		console.log("POST: user/create");
+		hash(req.body.password, saltRounds, function (err, _hash) {
+			let new_user_query = `INSERT INTO users (username, password, email) \
+				VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM users WHERE email = $3);`;
 
-		bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {
-			let new_user_query = `INSERT INTO table_name (username, password, email) \
-				VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM table_name WHERE email = $3);`;
-
-			db.query(new_user_query, req.body.username, hash, req.body.email)
+			db.query(new_user_query, req.body.username, _hash, req.body.email)
 				.then((res) => {
 					console.log(res);
 				})
@@ -168,7 +159,6 @@ module.exports = function (app, db) {
 
 	app.get("/user/:user_id", function (req, res) {
 		// Route protected by restrict_user function
-		console.log("GET: user/:user_id");
 
 		// FIXME: Change table_name & update query
 		let user_query = "SELECT * FROM table_name WHERE user_id=$1;";
@@ -188,7 +178,6 @@ module.exports = function (app, db) {
 
 	app.get("/user/:user_id/prefs", function (req, res) {
 		// Route protected by restrict_user function
-		console.log("GET: user/:user_id/prefs");
 
 		// FIXME: Change table_name & update query
 		const user_pref_query = "SELECT * FROM table_name WHERE user_id=$1;";
@@ -207,7 +196,6 @@ module.exports = function (app, db) {
 
 	app.post("/user/:user_id/prefs", function (req, res) {
 		// Route protected by restrict_user function
-		console.log("POST: user/:user_id/prefs");
 
 		// User should already be logged in if they are accessing this route
 		// username = req.session.username;
