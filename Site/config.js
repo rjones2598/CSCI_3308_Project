@@ -2,14 +2,15 @@
 // It is required by app.js
 
 var session = require("express-session");
+var bodyParser = require("body-parser");
 
 module.exports = function (app, env) {
 	// Set .html as the default template extension
-	app.set("view engine", "html");
+	app.set("view engine", "ejs");
 	// Initialize the ejs template engine
 	app.engine("html", require("ejs").renderFile);
 	// Tell express where it can find the templates
-	app.set("views", __dirname + "/views/pages");
+	app.set("views", __dirname + "/views/ejs");
 	// Setup express sessions. This is to allow users to login and retain that state throughout their time on the site
 	if (env == "dev") {
 		app.use(
@@ -20,9 +21,18 @@ module.exports = function (app, env) {
 		throw "Prod enviroment not setup";
 	}
 
+	// Add ability to parse json request body
+	app.use(bodyParser.json());
+	// Log every request for debugging
+	app.use(log_routes);
 	// Set express to run the "restrict_user" function on all requests that start with /user
 	app.use("/user", restrict_user);
 };
+
+function log_routes(req, res, next) {
+	console.log(req.method, ": ", req.url);
+	next();
+}
 
 function restrict_user(req, res, next) {
 	if (req.session.loggedIn) {
