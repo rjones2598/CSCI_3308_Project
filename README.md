@@ -2,12 +2,14 @@
 
 To run project:
 
+
 ```shell
 cd Site/
 npm install
-npm run dev OR node app.js
+node server.js
 ```
+go to localhost:3000/ in a browser
 
 ### Database Setup
 
-We are using a postgresql database. Run the db_builder script to recreate it. You will have to update the db.js file to match your db server settings. Remove the empty create client line once the settings are updated.
+copy database from db_builder to a local database named site_db, owned by user postgres with password passwd, on port 5432
