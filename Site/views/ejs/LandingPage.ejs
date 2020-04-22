@@ -159,25 +159,71 @@
 							<li data-target="#upcomingCarousel" data-slide-to="1"></li>
 							<li data-target="#upcomingCarousel" data-slide-to="2"></li>
 						</ol>
+						<%	
+							var num = 1;
+							upcoming1 = '';
+							upcoming2 = '';
+							upcoming3 = '';
+
+							eventData.forEach(function(event){
+								if(num > 3){
+									return;
+								}
+
+								switch(num){
+									case 1:
+										upcoming1+=`<h2>${event.title}</h2>
+													<div class='container'>
+														Date: ${event.start_date.toString().substring(0, 10)}
+														<hr>
+														<p>${event.description}</p>
+													</div>`;
+										break;
+
+									case 2:
+										upcoming2+=`<h2>${event.title}</h2>
+													<div class='container'>
+														Date: ${event.start_date.toString().substring(0, 10)}
+														<hr>
+														<p>${event.description}</p>
+													</div>`;
+										break;
+
+									case 3:
+										upcoming3+=`<h2>${event.title}</h2>
+													<div class='container'>
+														Date: ${event.start_date.toString().substring(0, 10)}
+														<hr>
+														<p>${event.description}</p>
+													</div>`;
+										break;
+
+									default:
+										break;
+								}
+
+								num++;
+							});
+						%>
 						<div class="carousel-inner">
 							<div class="carousel-item active" style="background: rgba(235, 235, 235); border-radius: 4px;">
 								<div class="container" id="Event1Body">
 									<br>
-									<h1>Test 1</h1>
+									<%- upcoming1 %>
 									<br>
 								</div>
 							</div>
 							<div class="carousel-item" style="background: rgba(235, 235, 235); border-radius: 4px;">
 								<div class="container" id="Event2Body">
 									<br>
-									<h1>Test 2</h1>
+									<%- upcoming2 %>
 									<br>
 								</div>
 							</div>
 							<div class="carousel-item" style="background: rgba(235, 235, 235); border-radius: 4px;">
 								<div class="container" id="Event3Body">
 									<br>
-									<h1>Test 3</h1>
+									<%- upcoming3 %>
 									<br>
 								</div>
 							</div>
