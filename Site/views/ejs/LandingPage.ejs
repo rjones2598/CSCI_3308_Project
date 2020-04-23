@@ -40,7 +40,7 @@
 		<a href="LandingPage.ejs">
 			<button type="button" class="btn btn-outline-dark" style="background: white;">Home</button>
 		</a>
-		<a href="profilepage.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">My Profile</a>
+		<a href="./profilepage.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">My Profile</a>
 		<a href="#signInModal" class="btn btn-outline-primary" data-toggle="modal" onclick="openModal()">Log in</a>
 	</nav>
 
@@ -178,16 +178,19 @@
 							<li data-target="#upcomingCarousel" data-slide-to="0" class="active"></li>
 							<li data-target="#upcomingCarousel" data-slide-to="1"></li>
 							<li data-target="#upcomingCarousel" data-slide-to="2"></li>
+							<li data-target="#upcomingCarousel" data-slide-to="3"></li>
+							<li data-target="#upcomingCarousel" data-slide-to="4"></li>
 						</ol>
 						<%	
 							var num = 1;
 							upcoming1 = '';
 							upcoming2 = '';
 							upcoming3 = '';
+							upcoming4 = '';
 
 							if(eventData){
 								eventData.forEach(function(event){
-									if(num > 3){
+									if(num > 4){
 										return;
 									}
 
@@ -212,6 +215,15 @@
 
 										case 3:
 											upcoming3+=`<a href="./ExampleEventPage3.html" style="color:black"><h2>${event.title}</h2></a>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
+										case 3:
+											upcoming4+=`<a href="./ExampleEventPage4.html" style="color:black"><h2>
+											${event.title}</h2></a>
 														<div class='container'>
 															Date: ${event.start_date.toString().substring(0, 10)}
 															<hr>
@@ -246,6 +258,13 @@
 								<div class="container" id="Event3Body">
 									<br>
 									<%- upcoming3 %>
+									<br>
+								</div>
+							</div>
+							<div class="carousel-item" style="background: rgba(235, 235, 235); border-radius: 4px;">
+								<div class="container" id="Event4Body">
+									<br>
+									<%- upcoming4 %>
 									<br>
 								</div>
 							</div>

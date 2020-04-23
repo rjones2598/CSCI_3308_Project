@@ -230,4 +230,11 @@ module.exports = function (app, db) {
 	app.get("/ExampleEventPage3.html", function (req, res) {
 		res.render("ExampleEventPage3.html");
 	});
+
+	app.get("/ExampleEventPage4.html", function (req, res) {
+		res.render("ExampleEventPage4.html");
+	});
+	app.get("/profilepage.html", function (req, res) {
+		res.render("profilepage.html");
+	});
 };
