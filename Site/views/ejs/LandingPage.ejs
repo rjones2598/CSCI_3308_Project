@@ -33,6 +33,22 @@
 			text = "<h5>Showing events for " + date + "</h5>";
 			
 			textBox.innerHTML = text;
+
+			var i;
+			var events = document.getElementsByClassName(date);
+			var allevents = document.getElementsByClassName('event');
+
+			for(i = 0; i < allevents.length; i++){
+				if(allevents[i].classList.contains('hidden')){
+
+				}else{
+					allevents[i].classList.add('hidden');
+				}
+			}
+
+			for(i = 0; i < events.length; i++){
+				events[i].classList.remove('hidden');
+			}
 		}
 
 	</script>
@@ -311,6 +327,37 @@
 						<div class="col" style="height: 400px; overflow: scroll;">
 							<br>
 							<div id="dateEventDisplay"></div>
+							<div>
+								<%
+									var dateEventsHTML = '';
+
+									if(eventData){
+										eventData.forEach(function(event){
+											var year = event.start_date.getFullYear();
+											var mo = event.start_date.getMonth()+1;
+											var day = event.start_date.getDate();
+
+											if(mo.toString().length == 1){
+												mo = '0'+mo.toString();
+											}
+
+											if(day.toString().length == 1){
+												day = '0'+day.toString();
+											}
+
+											dateEventsHTML += `<div style="border: 1px solid black; border-radius: 5px; margin-top: 3px; margin-bottom: 3px; margin-left: 6px; margin-right: 6px; padding: 5px;" class="container hidden event ${year}-${mo}-${day}">
+													<div class="row">
+														<div class="col-4"><img src="${event.media_src}" alt="${event.title} image"></div>
+														<div class="col-8">
+															${event.description}
+														</div>
+													</div>
+												</div> `;
+										});
+									} 
+								%>
+								<%- dateEventsHTML %>
+							</div>
 							<br>
 						</div>
 					</div>
