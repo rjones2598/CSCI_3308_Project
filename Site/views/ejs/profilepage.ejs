@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Landing Page</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="../../resources/css/style.css">
+	<script type="text/javascript" src="../../resources/scripts/scripts.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body style="background: rgba(20, 69, 119);">
+
+	<script type="text/javascript">
+
+		function updateDate(date, data)
+		{
+			console.log(eventData);
+			var textBox = document.getElementById('dateEventDisplay');
+			var text = "";
+
+			dailyEvents = '';
+
+
+			
+
+			text = "<h5>Showing events for " + date + "</h5>";
+			
+			textBox.innerHTML = text;
+		}
+
+	</script>
+	<nav class="navbar TopNavBar" style="background: rgba(234, 246, 255); border-bottom: 1px solid black;">
+		<a href="#">
+			<button type="button" class="btn btn-outline-dark" style="background: white;">Home</button>
+			<a href="profilepage.ejs" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">My Profile</a>
+		</a>
+		<a href="#signInModal" class="btn btn-outline-primary" data-toggle="modal" onclick="openModal()">Log in</a>
+	</nav>
+
+	<div id="signInModal" class="modal fade">
+		<div class="modal-dialog modal-login">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="row">
+						<div class="col">
+							<button id="LoginButton" class="btn btn-primary" onclick="openLogIn()">Log&nbspin</button>
+						</div>
+						<div class="col">
+							<button id="SignupButton" class="btn btn-outline-primary" onclick="openSignUp()">Sign&nbspup</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div id="signInDiv">
+						<br>
+						<div class="form-group row">
+							<label for="loginUsername" class="col-sm-2 col-form-label">Username</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="loginUsername" placeholder="Username">
+							</div>
+						</div>
+						<div class="row">
+							<label for="loginPassword" class="col-sm-2 col-form-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="loginPassword" placeholder="Password">
+							</div>
+						</div>
+
+						<div class="d-flex justify-content-center">
+							<small>Not a member? <a href="#" onclick="openSignUp()">Sign up</a></small>							
+						</div><br>
+
+						<div class="d-flex justify-content-center">
+								<button id="SignIn" class="btn btn-primary btn-sm">Log&nbspin</button>
+						</div>
+					</div>
+					<div id="signUpDiv" class="hidden">
+
+						<br>
+						<div class="row">
+							<div class="col-sm-2">
+								<label for="signupNameFirst" class="col-form-label">Your&nbspname</label>
+							</div>
+							<div class="col-sm-5" style="padding-right: 0px;">
+								<input type="text" class="form-control" id="signupNameFirst" placeholder="First">
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="signupNameLast" placeholder="Last">
+							</div>
+						</div><hr>
+
+						<div class="row sp">
+							<div class="col-sm-2">
+								<label for="signupEmail" class="col-form-label">Email</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="signupEmail" placeholder="example@Email.com">
+							</div>
+						</div>
+
+						<div class="row sp">
+							<div class="col-sm-2">
+								<label for="signupUsername" class="col-form-label">Username</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="signupUsername" placeholder="Username">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-2">
+								<label for="signupPass1" class="col-form-label">Password</label>
+							</div>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="signupPass1" placeholder="Password" style="margin-bottom: 5px;">
+								<input type="password" class="form-control" id="signupPass2" placeholder="Confirm password">
+							</div>
+						</div>
+
+						<div class="d-flex justify-content-center">
+							<small>Already a member? <a href="#" onclick="openLogIn()">Log in</a></small>							
+						</div><br>
+
+						<div class="d-flex justify-content-center">
+								<button id="SignUn" class="btn btn-primary btn-sm">Sign&nbspup</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+	<div class="col-2"></div>
+
+
+	<div class="col-8" id="pageBody" style="background: rgba(241, 241, 241);">
+		<br><br><br>
+
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<div class="container sec" id="topRow">
+					<br>
+					<div class="row">
+						<div class="col-9">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" placeholder="Category or Event Name" style="border: 1px solid gray;">
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="button">Search Events</button>
+								</div>
+							</div>	
+						</div>
+						<div class="col-3">
+							Put Logo Here?
+						</div>
+					</div>
+				</div><br><br>
+
+
+
+				<div class="container sec" id="upcomingTab">
+					<h3>Upcoming events</h3>
+					<div id="upcomingCarousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#upcomingCarousel" data-slide-to="0" class="active"></li>
+							<li data-target="#upcomingCarousel" data-slide-to="1"></li>
+							<li data-target="#upcomingCarousel" data-slide-to="2"></li>
+						</ol>
+						<%	
+							var num = 1;
+							upcoming1 = '';
+							upcoming2 = '';
+							upcoming3 = '';
+
+							if(eventData){
+								eventData.forEach(function(event){
+									if(num > 3){
+										return;
+									}
+
+									switch(num){
+										case 1:
+											upcoming1+=`<h2>${event.title}</h2>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
+
+										case 2:
+											upcoming2+=`<h2>${event.title}</h2>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
+
+										case 3:
+											upcoming3+=`<h2>${event.title}</h2>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
+
+										default:
+											break;
+									}
+
+									num++;
+								});
+							}
+						%>
+						<div class="carousel-inner">
+							<div class="carousel-item active" style="background: rgba(235, 235, 235); border-radius: 4px;">
+								<div class="container" id="Event1Body">
+									<br>
+									<%- upcoming1 %>
+									<br>
+								</div>
+							</div>
+							<div class="carousel-item" style="background: rgba(235, 235, 235); border-radius: 4px;">
+								<div class="container" id="Event2Body">
+									<br>
+									<%- upcoming2 %>
+									<br>
+								</div>
+							</div>
+							<div class="carousel-item" style="background: rgba(235, 235, 235); border-radius: 4px;">
+								<div class="container" id="Event3Body">
+									<br>
+									<%- upcoming3 %>
+									<br>
+								</div>
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#upcomingCarousel" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+					  	<a class="carousel-control-next" href="#upcomingCarousel" role="button" data-slide="next">
+					    	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					    	<span class="sr-only">Next</span>
+					  	</a>
+					</div><br>
+				</div><br><br>
+
+
+
+				<div class="container sec" id="categories">
+					<h3>Browse by genre:</h3>
+
+					<div class="row">
+						<div class="col-6" style="border-right: 1px solid gray; border-top: 1px solid gray;"><br>
+							<%
+								if(categData){
+									var links1 = '';
+									var links2 = '';
+									var count = 0;
+
+									categData.forEach(function(categ){
+										if(count < 4){
+											links1+=`<a href='#'>${categ.name}</a><br>`;
+											count++;
+										}else{
+											links2+=`<a href='#'>${categ.name}</a><br>`;
+										}
+									}); %>
+									<%- links1 %>
+							<%  } %>
+							<br>
+						</div>
+						<div class="col-6" style="border-top: 1px solid gray;"><br>
+							<%
+								if(categData){ %>
+
+								<%- links2 %>
+
+							<%  } %>
+							<br>
+						</div>
+					</div>
+				</div><br><br>
+
+
+				<div class="container sec" id="viewByDate" style="height: 400px;">
+					<div class="row">
+						<div class="col-4" style="border-right: 1px solid black;">
+							<br>
+							<label for="datepicker" class="col-form-label">Pick&nbspa&nbspdate:&nbsp</label>
+							<input data-date-format="yyyy-mm-dd" name="datepicker" id="datepicker" onchange="updateDate(this.value)" onload="updateDate(this.value)">
+							<br><br>
+						</div>
+
+						<div class="col" style="height: 400px; overflow: scroll;">
+							<br>
+							<div id="dateEventDisplay"></div>
+							<br>
+						</div>
+					</div>
+				</div><br><br>
+
+
+				<br><br><br><br><br><br><br><br><br><br>
+			</div>
+			<div class="col-1"></div>
+		</div>
+
+	</div>
+
+
+	<div class="col-2"></div>
+	</div>
+
+	<script type="text/javascript">
+		$('#datepicker').datepicker({
+			weekstart: 0,
+			todayHighlight: true,
+		});
+		$('#datepicker').datepicker("setDate", new Date());
+	</script>
+
+</body>
+</html>

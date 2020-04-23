@@ -49,11 +49,11 @@ CREATE TABLE IF NOT EXISTS prefs (
 SET timezone = 'America/Denver';
 
 -- Inserting example events
-INSERT INTO events(title, description, location, start_date, end_date)
-VALUES('Some Neat Event at Red Rocks', 'Nam molestie molestie maximus. Aliquam dolor elit, tincidunt a fringilla ac, gravida eget metus. Etiam id sem sit amet dui sodales varius. Fusce quis sapien lacinia, tempus lectus sit amet, cursus enim. Proin faucibus efficitur sodales. Nam id quam ullamcorper, suscipit.','Red Rocks Ampitheater','2020-04-27 20:30:00-07','2020-04-28 00:30:00-07'),
-('John Johnson @ the Gothic Theatre', 'John Johnson brings his unique style to his music playing. He is coming to Denver to play that such style.', 'The Gothic Theatre', '2020-04-28 19:30:00-07', '2020-04-29 00:30:00-07'),
-('Denver Food Fest @ the Botanic Gardens', 'Come experience food from the great chefs around Denver.', 'Botanic Gardens', '2020-04-29 11:30:00-07', '2020-04-29 21:30:00-07'),
-('Non-Specific Political Figure Rally', 'This nonspecific political figure is running for this non specified political office position. Come support them and help them win the vote.', 'Colorado Convention Center', '2020-07-18 16:30:00-07', '2020-07-18 20:30:00-07');
+INSERT INTO events(title, description, location, start_date, end_date, media_src)
+VALUES('Some Neat Event at Red Rocks', 'Nam molestie molestie maximus. Aliquam dolor elit, tincidunt a fringilla ac, gravida eget metus. Etiam id sem sit amet dui sodales varius. Fusce quis sapien lacinia, tempus lectus sit amet, cursus enim. Proin faucibus efficitur sodales. Nam id quam ullamcorper, suscipit.','Red Rocks Ampitheater','2020-04-27 20:30:00-07','2020-04-28 00:30:00-07','https://media.9news.com/assets/KUSA/images/7206598c-999a-4a31-9d06-0691675a2a66/7206598c-999a-4a31-9d06-0691675a2a66_1140x641.jpg'),
+('John Johnson @ the Gothic Theatre', 'John Johnson brings his unique style to his music playing. He is coming to Denver to play that such style.', 'The Gothic Theatre', '2020-04-28 19:30:00-07', '2020-04-29 00:30:00-07','../../resources/img/gothictheatre.jpg'),
+('Denver Food Fest @ the Botanic Gardens', 'Come experience food from the great chefs around Denver.', 'Botanic Gardens', '2020-04-29 11:30:00-07', '2020-04-29 21:30:00-07','../../resources/img/BotanicGardens.jpg'),
+('Non-Specific Political Figure Rally', 'This nonspecific political figure is running for this non specified political office position. Come support them and help them win the vote.', 'Colorado Convention Center', '2020-07-18 16:30:00-07', '2020-07-18 20:30:00-07','../../resources/img/political.jpg');
 
 -- Inserting preferences
 INSERT INTO prefs(parent_pref_id, name, pref_img)
