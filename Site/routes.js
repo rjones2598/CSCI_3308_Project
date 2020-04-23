@@ -116,7 +116,7 @@ module.exports = function (app, db) {
 							})
 								.then((data) => {
 									console.log(data);
-									res.render("profilepage", {
+									res.render("LandingPage", {
 										eventData: data[0],
 										categData: data[1],
 									});
@@ -124,7 +124,7 @@ module.exports = function (app, db) {
 								.catch((err) => {
 									console.log(err);
 
-									res.render("profilepage", { eventData: "", categData: "" });
+									res.render("LandingPage", { eventData: "", categData: "" });
 								});
 						} else {
 							console.log("login failed");
@@ -174,7 +174,7 @@ module.exports = function (app, db) {
 				res.redirect("/");
 			}
 			console.log("hashed password.");
-			let new_user_query = `INSERT INTO users (username, firstname, lastname, password, email) VALUES ('${req.body.signupUsername}', '${req.body.signupNameFirst}', '${req.body.signupNameLast}', '${_hash}', '${req.body.signupEmail}') ON CONFLICT DO NOTHING;`;
+			let new_user_query = `INSERT INTO users (username, firstname, lastname, password, email, prefs) VALUES ('${req.body.signupUsername}', '${req.body.signupNameFirst}', '${req.body.signupNameLast}', '${_hash}', '${req.body.signupEmail}', '{1, 2, 4, 5, 7, 8, 3}') ON CONFLICT DO NOTHING;`;
 
 			db.any(new_user_query)
 				.then((info) => {
@@ -188,7 +188,7 @@ module.exports = function (app, db) {
 							req.session.loggedIn = true;
 
 							console.log("New user added");
-							res.redirect(`/user/prefs`);
+							res.redirect(`/`);
 						})
 						.catch((err) => {
 							console.log("Error fetching user data after insert", err);
@@ -200,6 +200,23 @@ module.exports = function (app, db) {
 					res.redirect("/");
 				});
 		});
+	});
+
+	app.get("/user", function (req, res) {
+		const get_user = `SELECT firstname, lastname FROM users WHERE user_id=${req.session.user_id};`;
+		const get_events = `SELECT * FROM events WHERE (SELECT category_id = ANY (prefs) FROM users WHERE user_id='${req.session.user_id}');`;
+		const cat_query = "SELECT * FROM prefs;";
+
+		db.task((t) => {
+			return t.batch([t.any(get_user), t.any(get_events), t.any(cat_query)]);
+		})
+			.then((data) => {
+				res.render("profilepage", { eventData: data[1], categData: data[2] });
+			})
+			.catch((err) => {
+				console.log("Error", err);
+				res.render("profilepage", { eventData: "", categData: "" });
+			});
 	});
 
 	app.get("/user/prefs", function (req, res) {
