@@ -138,23 +138,29 @@ module.exports = function (app, db) {
 	app.post("/create/user", function (req, res) {
 		// Hash Password using bcrypt
 		hash(req.body.password, saltRounds, function (err, _hash) {
-			let new_user_query = `INSERT INTO users (username, password, email) \
-				VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM users WHERE email = $3);`;
+			if (err) {
+				console.log("Error Hashing password", err);
+				res.redirect("/");
+			}
+			let new_user_query = `INSERT INTO users (username, firstname, lastname, password, email) VALUES ('${req.body.username}', '${req.body.firstname}', '${req.body.lastname}', '${_hash}', '${req.body.email}') ON CONFLICT DO NOTHING;`;
 
-			db.query(new_user_query, req.body.username, _hash, req.body.email)
-				.then((res) => {
-					req.session.username = req.body.username;
-					// TODO: check if res contains user_id
-					// req.session.user_id = all_data.user_id;
-					req.session.email = req.body.email;
-					req.session.loggedIn = true;
+			db.any(new_user_query)
+				.then((info) => {
+					db.one(
+						`SELECT user_id FROM users WHERE email=${req.body.email}`
+					).then((user_id) => {
+						req.session.username = req.body.username;
+						req.session.user_id = user_id;
+						req.session.email = req.body.email;
+						req.session.loggedIn = true;
 
-					console.log("User Added", res);
-					res.render("UserPref");
+						console.log("New user added");
+						res.render("UserPref");
+					});
 				})
 				.catch((err) => {
 					console.log("User not added to database: Error: ", err);
-					res.render("LandingPage");
+					res.redirect("/");
 				});
 		});
 	});
