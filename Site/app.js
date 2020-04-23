@@ -4,7 +4,7 @@
 // 'node app.js' in your terminal
 
 var express = require("express"),
-	app = express();
+	 app = express();
 
 var db = require("./db");
 var port = process.env.PORT || 8080;
@@ -15,6 +15,7 @@ var env = process.env.NODE_ENV || "dev";
 
 require("./config")(app, env);
 require("./routes")(app, db);
+
 
 
 app.set('view engine', 'ejs');

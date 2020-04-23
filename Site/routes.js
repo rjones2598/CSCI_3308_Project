@@ -166,6 +166,8 @@ module.exports = function (app, db) {
 
 		var passwd = req.body.signupPass1;
 
+		console.log(passwd);
+
 		hash(passwd, saltRounds, function (err, _hash) {
 			if (err) {
 				console.log("Error Hashing password", err);

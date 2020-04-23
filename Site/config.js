@@ -23,6 +23,7 @@ module.exports = function (app, env) {
 
 	// Add ability to parse json request body
 	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true }));
 	// Log every request for debugging
 	app.use(log_routes);
 	// Set express to run the "restrict_user" function on all requests that start with /user
