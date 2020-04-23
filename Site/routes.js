@@ -11,7 +11,7 @@ module.exports = function (app, db) {
 		// Find events based on user
 		// && operator checks to see if arrays have elements in common
 		let events_query = req.session.loggedIn
-			? `SELECT * FROM events WHERE category&&(SELECT categories FROM user_table WHERE user_id=${req.body.user_id});`
+			? `SELECT * FROM events WHERE (SELECT category_id = ANY (prefs) FROM users WHERE user_id='${req.session.user_id}');`
 			: "SELECT * FROM events;";
 
 		let cat_query = "SELECT * FROM prefs;";
@@ -20,6 +20,7 @@ module.exports = function (app, db) {
 			return t.batch([t.any(events_query), t.any(cat_query)]);
 		})
 			.then((info) => {
+				console.log(info);
 				res.render("LandingPage", {
 					eventData: info[0],
 					categData: info[1],
@@ -88,8 +89,6 @@ module.exports = function (app, db) {
 	app.post("/login", function (req, res) {
 		// console.log(req.session.loggedIn);
 		if (!req.session.loggedIn) {
-			console.log(req.body.loginUsername);
-
 			let user_query = `SELECT * FROM users WHERE username='${req.body.loginUsername}';`;
 
 			db.one(user_query)
@@ -109,13 +108,14 @@ module.exports = function (app, db) {
 							req.session.email = all_data.email;
 							req.session.loggedIn = true;
 
-							let events_query = `SELECT * FROM events WHERE category_id&&(SELECT prefs FROM users WHERE user_id=${req.body.user_id});`;
+							let events_query = `SELECT * FROM events WHERE (SELECT category_id = ANY (prefs) FROM users WHERE user_id='${all_data.user_id}');`;
 							let cat_query = "SELECT * FROM prefs;";
 
 							db.task((t) => {
 								return t.batch([t.any(events_query), t.any(cat_query)]);
 							})
 								.then((data) => {
+									console.log(data);
 									res.render("profilepage", {
 										eventData: data[0],
 										categData: data[1],
