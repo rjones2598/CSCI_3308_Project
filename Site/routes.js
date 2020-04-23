@@ -86,7 +86,7 @@ module.exports = function (app, db) {
 	//////////////////////////////////////////
 
 	app.post("/login", function (req, res) {
-		console.log(req.session.loggedIn);
+		// console.log(req.session.loggedIn);
 		if (!req.session.loggedIn) {
 			let user_query = `SELECT * FROM users WHERE username='${req.body.username}';`;
 
@@ -189,64 +189,45 @@ module.exports = function (app, db) {
 		});
 	});
 
-	app.get("/user/:user_id", function (req, res) {
-		// Route protected by restrict_user function
-
-		// FIXME: Change table_name & update query
-		let user_query = "SELECT * FROM table_name WHERE user_id=$1;";
-
-		// db.query(user_query, req.params.user_id)
-		// 	.then((user_data) => {
-		// 		console.log(user_data);
-		// 		// TODO: Render page with db data
-		// 		res.render("profilepage");
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log(error);
-		// 		res.render("profilepage");
-		// 	});
-		res.render("profilepage");
-	});
-
 	app.get("/user/prefs", function (req, res) {
 		// Route protected by restrict_user function
 
-		// FIXME: Change table_name & update query
-		const user_pref_query = `SELECT * FROM users WHERE user_id=${req.session.user_id};`;
+		const user_pref_query = `SELECT prefs FROM users WHERE user_id=${req.session.user_id};`;
 
 		db.any(user_pref_query)
 			.then((user_data) => {
-				console.log(user_data);
-				// TODO: Pass user_data to profile page
-				res.render("UserPref");
+				res.render("UserPref", { pref: prefs });
 			})
 			.catch((error) => {
-				console.log(error);
-				res.redirect("/profilepage");
+				console.log("ERR", error);
+				res.render("profilepage", { eventData: "", categData: "" });
 			});
 	});
 
 	app.post("/user/prefs", function (req, res) {
 		// Route protected by restrict_user function
 
-		// User should already be logged in if they are accessing this route
-		// username = req.session.username;
-		// let update_query = "INSERT INTO table_name prefs VALUES $1 WHERE username = $2;";
-		// TODO: write db query once db is functional
-
-		// What page should be rendered after updating prefs?
-		res.render("UserPref");
+		const pref_query = `UPDATE users SET prefs = ${req.body.prefs} WHERE user_id=${req.session.user_id}`;
+		db.one(pref_query)
+			.then((empty) => {
+				console.log("Updated Prefs");
+				res.redirect("/user/prefs");
+			})
+			.catch((err) => {
+				console.log(err);
+				res.redirect("/user/prefs");
+			});
 	});
 
 	app.get("/ExampleEventPage.html", function (req, res) {
-		res.render("ExampleEventPage.html")
+		res.render("ExampleEventPage.html");
 	});
 
 	app.get("/ExampleEventPage2.html", function (req, res) {
-		res.render("ExampleEventPage2.html")
+		res.render("ExampleEventPage2.html");
 	});
 
 	app.get("/ExampleEventPage3.html", function (req, res) {
-		res.render("ExampleEventPage3.html")
+		res.render("ExampleEventPage3.html");
 	});
 };

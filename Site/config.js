@@ -26,21 +26,23 @@ module.exports = function (app, env) {
 	// Log every request for debugging
 	app.use(log_routes);
 	// Set express to run the "restrict_user" function on all requests that start with /user
-	app.use("/user", restrict_user);
+	app.use(restrict_user);
 };
 
 function log_routes(req, res, next) {
 	console.log(req.method, ": ", req.url);
-	next();
+	return next();
 }
 
 function restrict_user(req, res, next) {
+	if (req.url.indexOf("/user") == -1) return next();
+
 	if (req.session.loggedIn) {
 		console.log("User allowed to restricted user space");
-		next();
-	} else {
-		console.log("User session not logged in, redirecting");
-		req.session.error = "Access denied!";
-		res.redirect("/");
+		return next();
 	}
+
+	console.log("User session not logged in, redirecting");
+	req.session.error = "Access denied!";
+	res.redirect("/");
 }
