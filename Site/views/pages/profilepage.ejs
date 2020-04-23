@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>User Profile</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="./ref/style.css">
-	<script type="text/javascript" src="./ref/scripts.js"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</head>
-<body>
-	<nav class="navbar navbar-light bg-light TopNavBar">
-		<a href="#">
-			<a class="btn btn-outline-dark" href= "./LandingPage.ejs" class="btn btn-outline-primary">Home</a>
-		</a>
-		<a href="#signInModal" class="btn btn-outline-primary" data-toggle="modal" onclick="openModal()">Log in</a>
-	</nav>
-
-
+<% include ../partials/header %>
+<% include ../partials/menu %>
 	<div class="container">
         <br/>
         <div class="row">
@@ -111,14 +93,13 @@ function deleteCard(div){
     </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="d-block w-100" src="https://media.9news.com/assets/KUSA/images/7206598c-999a-4a31-9d06-0691675a2a66/7206598c-999a-4a31-9d06-0691675a2a66_1140x641.jpg"
-              class="d-block w-100" alt="First Event">
+          <img class="d-block w-100" src="../../resources/img/default.png" alt="First Event">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../../resources/img/gothictheatre.jpg" alt="Second Event" width="400" height="600">
+          <img class="d-block w-100" src="../../resources/img/red.jpg" alt="Second Event" width="400" height="600">
         </div>
         <div class="carousel-item">
-          <img class="d-block w-100" src="../../resources/img/BotanicGardens.jpg" alt="Third Event" width="400" height="600">
+          <img class="d-block w-100" src="../../resources/img/blue.jpg" alt="Third Event" width="400" height="600">
         </div>
         <div class="carousel-item">
           <img class="d-block w-100" src="../../resources/img/purple.jpg" alt="Fourth Event" width="400" height="600">
@@ -136,6 +117,5 @@ function deleteCard(div){
         <span class="sr-only">Next</span>
       </a>
     </div>
-
-</body>
-</html>
+  
+<% include ../partials/footer %>
