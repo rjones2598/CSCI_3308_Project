@@ -163,7 +163,10 @@ module.exports = function (app, db) {
 		console.log("HERE");
 		// Hash Password using bcrypt
 		console.log("Starting to hash password");
-		hash(req.body.signupPass1, saltRounds, function (err, _hash) {
+
+		var passwd = req.body.signupPass1;
+
+		hash(passwd, saltRounds, function (err, _hash) {
 			if (err) {
 				console.log("Error Hashing password", err);
 				res.redirect("/");
