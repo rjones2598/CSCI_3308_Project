@@ -127,7 +127,7 @@ module.exports = function (app, db) {
 						} else {
 							console.log("login failed");
 							req.session.loggedIn = false;
-							res.render("login");
+							res.redirect("/");
 						}
 					});
 				})
@@ -162,20 +162,24 @@ module.exports = function (app, db) {
 	app.post("/create/user", function (req, res) {
 		console.log("HERE");
 		// Hash Password using bcrypt
-		hash(req.body.password, saltRounds, function (err, _hash) {
+		console.log("Starting to hash password");
+		hash(req.body.signupPass1, saltRounds, function (err, _hash) {
 			if (err) {
 				console.log("Error Hashing password", err);
 				res.redirect("/");
 			}
-			let new_user_query = `INSERT INTO users (username, firstname, lastname, password, email) VALUES ('${req.body.username}', '${req.body.firstname}', '${req.body.lastname}', '${_hash}', '${req.body.email}') ON CONFLICT DO NOTHING;`;
+			console.log("hashed password.");
+			let new_user_query = `INSERT INTO users (username, firstname, lastname, password, email) VALUES ('${req.body.signupUsername}', '${req.body.signupNameFirst}', '${req.body.signupNameLast}', '${_hash}', '${req.body.signupEmail}') ON CONFLICT DO NOTHING;`;
 
 			db.any(new_user_query)
 				.then((info) => {
-					db.one(`SELECT user_id FROM users WHERE email='${req.body.email}'`)
+					db.one(
+						`SELECT user_id FROM users WHERE email='${req.body.signupEmail}'`
+					)
 						.then((user_id) => {
-							req.session.username = req.body.username;
+							req.session.username = req.body.signupUsername;
 							req.session.user_id = user_id["user_id"];
-							req.session.email = req.body.email;
+							req.session.email = req.body.signupEmail;
 							req.session.loggedIn = true;
 
 							console.log("New user added");
@@ -233,5 +237,12 @@ module.exports = function (app, db) {
 
 	app.get("/ExampleEventPage3.html", function (req, res) {
 		res.render("ExampleEventPage3.html");
+	});
+
+	app.get("/ExampleEventPage4.html", function (req, res) {
+		res.render("ExampleEventPage4.html");
+	});
+	app.get("/profilepage.html", function (req, res) {
+		res.render("profilepage.html");
 	});
 };
