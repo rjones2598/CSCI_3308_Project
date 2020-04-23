@@ -16,11 +16,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+  
 </head>
 <body>
   <nav class="navbar TopNavBar" style="background: rgba(234, 246, 255); border-bottom: 1px solid black;">
+<<<<<<< HEAD
     <a href="/#">
+=======
+    <a href="#">
+>>>>>>> 583d5d3e49d2f039c03c5d1d2e5c85fa24fee45e
       <button type="button" class="btn btn-outline-dark" style="background: white;">Home</button>
     </a>
     <a href="profilepage.html" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">My Profile</a>
@@ -181,7 +185,6 @@ $(document).ready(function(){
 		var i = 0;
 		var j = 0;
 		var k = 0;
-    var l = 0;
 		var tweet = $('<div class="card" id="'+i+'"> <div class="text-right"><button type="button" onclick="deleteCard('+i+')" class="btn btn-danger btn-circle btn-sm">-</button></div>More events</div>');
 		tweet.appendTo('#interest1');
 	}
@@ -193,10 +196,6 @@ $(document).ready(function(){
 		var tweet = $('<div class="card" id="'+k+'"> <div class="text-right"><button type="button" onclick="deleteCard('+k+')" class="btn btn-danger btn-circle btn-sm">-</button></div>More events</div>');
 		tweet.appendTo('#interest3');
 	}
-  if(card == 3){
-    var tweet = $('<div class="card" id="'+l+'"> <div class="text-right"><button type="button" onclick="deleteCard('+k+')" class="btn btn-danger btn-circle btn-sm">-</button></div>More events</div>');
-    tweet.appendTo('#interest4');
-  }
 }
 
 function deleteCard(div){

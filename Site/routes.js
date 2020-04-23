@@ -160,6 +160,7 @@ module.exports = function (app, db) {
 	});
 
 	app.post("/create/user", function (req, res) {
+		console.log("HERE");
 		// Hash Password using bcrypt
 		console.log("Starting to hash password");
 		hash(req.body.signupPass1, saltRounds, function (err, _hash) {
@@ -173,16 +174,21 @@ module.exports = function (app, db) {
 			db.any(new_user_query)
 				.then((info) => {
 					db.one(
-						`SELECT user_id FROM users WHERE email=${req.body.signupEmail}`
-					).then((user_id) => {
-						req.session.username = req.body.signupUsername;
-						req.session.user_id = user_id;
-						req.session.email = req.body.signupEmail;
-						req.session.loggedIn = true;
+						`SELECT user_id FROM users WHERE email='${req.body.signupEmail}'`
+					)
+						.then((user_id) => {
+							req.session.username = req.body.signupUsername;
+							req.session.user_id = user_id["user_id"];
+							req.session.email = req.body.signupEmail;
+							req.session.loggedIn = true;
 
-						console.log("New user added");
-						res.render("UserPref");
-					});
+							console.log("New user added");
+							res.redirect(`/user/prefs`);
+						})
+						.catch((err) => {
+							console.log("Error fetching user data after insert", err);
+							res.redirect("/");
+						});
 				})
 				.catch((err) => {
 					console.log("User not added to database: Error: ", err);
@@ -198,7 +204,7 @@ module.exports = function (app, db) {
 
 		db.any(user_pref_query)
 			.then((user_data) => {
-				res.render("UserPref", { pref: prefs });
+				res.render("UserPref", { pref: user_data });
 			})
 			.catch((error) => {
 				console.log("ERR", error);
