@@ -11,19 +11,26 @@ module.exports = function (app, db) {
 		// Find events based on user
 		// && operator checks to see if arrays have elements in common
 		let events_query = req.session.loggedIn
-			? "SELECT * FROM events WHERE category&&(SELECT categories FROM user_table WHERE user_id=$1);"
+			? `SELECT * FROM events WHERE category&&(SELECT categories FROM user_table WHERE user_id=${req.body.user_id});`
 			: "SELECT * FROM events;";
 
-		db.query(events_query, req.session.user_id)
-			.then((events) => {
-				console.log(events);
-				// TODO: Render page with db data
-				res.render("LandingPage", { categData: events });
+		let cat_query = "SELECT * FROM prefs;";
+
+		db.task((t) => {
+			return t.batch([t.any(events_query), t.any(cat_query)]);
+		})
+			.then((info) => {
+				res.render("LandingPage", {
+					eventData: info[0],
+					categData: info[1],
+				});
 			})
-			.catch((error) => {
-				console.log(error);
-				// Render page without db data
-				res.render("LandingPage", { categData: null });
+			.catch((err) => {
+				console.log("error", err);
+				res.render("LandingPage", {
+					eventData: "",
+					categData: "",
+				});
 			});
 	});
 

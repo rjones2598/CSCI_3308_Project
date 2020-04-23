@@ -1,7 +1,5 @@
 var pg = require("pg-promise")();
 
-// FIXME: Need to edit this to once we create a postgres database
-
 const dbConfig = {
 	user: "postgres",
 	host: "localhost",
