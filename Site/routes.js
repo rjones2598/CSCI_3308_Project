@@ -41,7 +41,7 @@ module.exports = function (app, db) {
 	app.get("/event/:id", function (req, res) {
 		let event_query = `SELECT * FROM events WHERE event_id=${req.params.id};`;
 
-		db.all(event_query)
+		db.any(event_query)
 			.then((events) => {
 				console.log(events);
 				// TODO: Render page with db data
@@ -107,8 +107,23 @@ module.exports = function (app, db) {
 							req.session.email = all_data.email;
 							req.session.loggedIn = true;
 
-							// TODO: Render Home page, Possibly send user logged in state too?
-							res.render("profilepage");
+							let events_query = `SELECT * FROM events WHERE category&&(SELECT categories FROM user_table WHERE user_id=${req.body.user_id});`;
+							let cat_query = "SELECT * FROM prefs;";
+
+							db.task((t) => {
+								return t.batch([t.any(events_query), t.any(cat_query)]);
+							})
+								.then((data) => {
+									res.render("profilepage", {
+										eventData: data[0],
+										categData: data[1],
+									});
+								})
+								.catch((err) => {
+									console.log(err);
+
+									res.render("profilepage", { eventData: "", categData: "" });
+								});
 						} else {
 							console.log("login failed");
 							req.session.loggedIn = false;
@@ -193,25 +208,25 @@ module.exports = function (app, db) {
 		res.render("profilepage");
 	});
 
-	app.get("/user/:user_id/prefs", function (req, res) {
+	app.get("/user/prefs", function (req, res) {
 		// Route protected by restrict_user function
 
 		// FIXME: Change table_name & update query
-		const user_pref_query = "SELECT * FROM table_name WHERE user_id=$1;";
+		const user_pref_query = `SELECT * FROM users WHERE user_id=${req.session.user_id};`;
 
-		db.query(user_pref_query, req.params.user_id)
+		db.any(user_pref_query)
 			.then((user_data) => {
 				console.log(user_data);
 				// TODO: Pass user_data to profile page
-				res.render("profilepage");
+				res.render("UserPref");
 			})
 			.catch((error) => {
 				console.log(error);
-				res.render("profilepage");
+				res.redirect("/profilepage");
 			});
 	});
 
-	app.post("/user/:user_id/prefs", function (req, res) {
+	app.post("/user/prefs", function (req, res) {
 		// Route protected by restrict_user function
 
 		// User should already be logged in if they are accessing this route
