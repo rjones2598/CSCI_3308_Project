@@ -9,7 +9,7 @@ var pgp = require('pg-promise')();
 
 const dbConfig = {
 	host: 'localhost',
-	port: 5432,
+	port: 3211,
 	database: 'site_db',
 	user: 'postgres',
 	password: 'passwd'
