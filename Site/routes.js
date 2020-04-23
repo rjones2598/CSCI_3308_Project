@@ -88,7 +88,9 @@ module.exports = function (app, db) {
 	app.post("/login", function (req, res) {
 		// console.log(req.session.loggedIn);
 		if (!req.session.loggedIn) {
-			let user_query = `SELECT * FROM users WHERE username='${req.body.username}';`;
+			console.log(req.body.loginUsername);
+
+			let user_query = `SELECT * FROM users WHERE username='${req.body.loginUsername}';`;
 
 			db.one(user_query)
 				.then((all_data) => {
