@@ -7,28 +7,31 @@ const saltRounds = 10;
 module.exports = function (app, db) {
 	app.get("/", function (req, res) {
 		// Render views/home.html
-		if (req.session.loggedIn) {
-			// Find events based on user
 
-			// && operator checks to see if arrays have elements in common
-			// FIXME: Change table_name & update query
-			let events_query =
-				"SELECT * FROM table_name WHERE category&&(SELECT categories FROM user_table WHERE user_id=$1);";
+		// Find events based on user
+		// && operator checks to see if arrays have elements in common
+		let events_query = req.session.loggedIn
+			? `SELECT * FROM events WHERE category&&(SELECT categories FROM user_table WHERE user_id=${req.body.user_id});`
+			: "SELECT * FROM events;";
 
-			db.query(events_query, req.session.user_id)
-				.then((events) => {
-					console.log(events);
-					// TODO: Render page with db data
-					res.render("LandingPage");
-				})
-				.catch((error) => {
-					console.log(error);
-					// Render page without db data
-					res.render("LandingPage");
+		let cat_query = "SELECT * FROM prefs;";
+
+		db.task((t) => {
+			return t.batch([t.any(events_query), t.any(cat_query)]);
+		})
+			.then((info) => {
+				res.render("LandingPage", {
+					eventData: info[0],
+					categData: info[1],
 				});
-		}
-		// Render page without db data
-		res.render("LandingPage");
+			})
+			.catch((err) => {
+				console.log("error", err);
+				res.render("LandingPage", {
+					eventData: "",
+					categData: "",
+				});
+			});
 	});
 
 	////////////////////////////////////////////
@@ -36,23 +39,18 @@ module.exports = function (app, db) {
 	///////////////////////////////////////////
 
 	app.get("/event/:id", function (req, res) {
-		// console.log(req.params.id);
+		let event_query = "SELECT * FROM events WHERE event_id=$1;";
 
-		// FIXME: Change table_name & update query
-		let event_query = "SELECT * FROM table_name WHERE event_id=$1;";
-
-		// TODO: Once db is setup, uncomment lines below
-		// db.query(event_query, req.params.id)
-		// 	.then((events) => {
-		// 		console.log(events);
-		// 		// TODO: Render page with db data
-		// 		res.render("ExampleEventPage");
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log(error);
-		// 		res.render("ExampleEventPage");
-		// 	});
-		res.render("ExampleEventPage");
+		db.query(event_query, req.params.id)
+			.then((events) => {
+				console.log(events);
+				// TODO: Render page with db data
+				res.render("ExampleEventPage");
+			})
+			.catch((error) => {
+				console.log("Error Connecting to db, rendering static page", error);
+				res.render("ExampleEventPage.html");
+			});
 	});
 
 	app.post("/event/:id/comment", function (req, res) {
@@ -138,23 +136,27 @@ module.exports = function (app, db) {
 	});
 
 	app.post("/create/user", function (req, res) {
+		// Hash Password using bcrypt
 		hash(req.body.password, saltRounds, function (err, _hash) {
 			let new_user_query = `INSERT INTO users (username, password, email) \
 				VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM users WHERE email = $3);`;
 
 			db.query(new_user_query, req.body.username, _hash, req.body.email)
 				.then((res) => {
-					console.log(res);
+					req.session.username = req.body.username;
+					// TODO: check if res contains user_id
+					// req.session.user_id = all_data.user_id;
+					req.session.email = req.body.email;
+					req.session.loggedIn = true;
+
+					console.log("User Added", res);
+					res.render("UserPref");
 				})
 				.catch((err) => {
 					console.log("User not added to database: Error: ", err);
+					res.render("LandingPage");
 				});
 		});
-
-		// TODO: add db query once db is setup
-		// update session variables with new info
-
-		res.render("UserPref");
 	});
 
 	app.get("/user/:user_id", function (req, res) {
