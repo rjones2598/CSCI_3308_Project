@@ -25,14 +25,10 @@
 
 		function updateDate(date, data)
 		{
-			console.log(eventData);
 			var textBox = document.getElementById('dateEventDisplay');
 			var text = "";
 
 			dailyEvents = '';
-
-
-			
 
 			text = "<h5>Showing events for " + date + "</h5>";
 			
@@ -193,7 +189,7 @@
 
 									switch(num){
 										case 1:
-											upcoming1+=`<h2>${event.title}</h2>
+											upcoming1+=`<a href="./ExampleEventPage.html" style="color:black"><h2>${event.title}</h2></a>
 														<div class='container'>
 															Date: ${event.start_date.toString().substring(0, 10)}
 															<hr>
@@ -202,7 +198,7 @@
 											break;
 
 										case 2:
-											upcoming2+=`<h2>${event.title}</h2>
+											upcoming2+=`<a href="./ExampleEventPage2.html" style="color:black"><h2>${event.title}</h2></a>
 														<div class='container'>
 															Date: ${event.start_date.toString().substring(0, 10)}
 															<hr>
@@ -211,7 +207,7 @@
 											break;
 
 										case 3:
-											upcoming3+=`<h2>${event.title}</h2>
+											upcoming3+=`<a href="./ExampleEventPage3.html" style="color:black"><h2>${event.title}</h2></a>
 														<div class='container'>
 															Date: ${event.start_date.toString().substring(0, 10)}
 															<hr>

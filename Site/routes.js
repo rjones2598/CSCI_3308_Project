@@ -222,4 +222,16 @@ module.exports = function (app, db) {
 		// What page should be rendered after updating prefs?
 		res.render("UserPref");
 	});
+
+	app.get("/ExampleEventPage.html", function (req, res) {
+		res.render("ExampleEventPage.html")
+	});
+
+	app.get("/ExampleEventPage2.html", function (req, res) {
+		res.render("ExampleEventPage2.html")
+	});
+
+	app.get("/ExampleEventPage3.html", function (req, res) {
+		res.render("ExampleEventPage3.html")
+	});
 };
