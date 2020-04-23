@@ -16,5 +16,10 @@ var env = process.env.NODE_ENV || "dev";
 require("./config")(app, env);
 require("./routes")(app, db);
 
+
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/'));
+
+
 console.log("Your application is running on http://localhost:" + port);
 module.exports = app.listen(port);

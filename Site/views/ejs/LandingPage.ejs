@@ -20,6 +20,26 @@
 
 </head>
 <body style="background: rgba(20, 69, 119);">
+
+	<script type="text/javascript">
+
+		function updateDate(date, data)
+		{
+			console.log(eventData);
+			var textBox = document.getElementById('dateEventDisplay');
+			var text = "";
+
+			dailyEvents = '';
+
+
+			
+
+			text = "<h5>Showing events for " + date + "</h5>";
+			
+			textBox.innerHTML = text;
+		}
+
+	</script>
 	<nav class="navbar TopNavBar" style="background: rgba(234, 246, 255); border-bottom: 1px solid black;">
 		<a href="#">
 			<button type="button" class="btn btn-outline-dark" style="background: white;">Home</button>
@@ -165,45 +185,47 @@
 							upcoming2 = '';
 							upcoming3 = '';
 
-							eventData.forEach(function(event){
-								if(num > 3){
-									return;
-								}
+							if(eventData){
+								eventData.forEach(function(event){
+									if(num > 3){
+										return;
+									}
 
-								switch(num){
-									case 1:
-										upcoming1+=`<h2>${event.title}</h2>
-													<div class='container'>
-														Date: ${event.start_date.toString().substring(0, 10)}
-														<hr>
-														<p>${event.description}</p>
-													</div>`;
-										break;
+									switch(num){
+										case 1:
+											upcoming1+=`<h2>${event.title}</h2>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
 
-									case 2:
-										upcoming2+=`<h2>${event.title}</h2>
-													<div class='container'>
-														Date: ${event.start_date.toString().substring(0, 10)}
-														<hr>
-														<p>${event.description}</p>
-													</div>`;
-										break;
+										case 2:
+											upcoming2+=`<h2>${event.title}</h2>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
 
-									case 3:
-										upcoming3+=`<h2>${event.title}</h2>
-													<div class='container'>
-														Date: ${event.start_date.toString().substring(0, 10)}
-														<hr>
-														<p>${event.description}</p>
-													</div>`;
-										break;
+										case 3:
+											upcoming3+=`<h2>${event.title}</h2>
+														<div class='container'>
+															Date: ${event.start_date.toString().substring(0, 10)}
+															<hr>
+															<p>${event.description}</p>
+														</div>`;
+											break;
 
-									default:
-										break;
-								}
+										default:
+											break;
+									}
 
-								num++;
-							});
+									num++;
+								});
+							}
 						%>
 						<div class="carousel-inner">
 							<div class="carousel-item active" style="background: rgba(235, 235, 235); border-radius: 4px;">
@@ -277,7 +299,7 @@
 				</div><br><br>
 
 
-				<div class="container sec" id="viewByDate">
+				<div class="container sec" id="viewByDate" style="height: 400px;">
 					<div class="row">
 						<div class="col-4" style="border-right: 1px solid black;">
 							<br>
@@ -286,7 +308,7 @@
 							<br><br>
 						</div>
 
-						<div class="col">
+						<div class="col" style="height: 400px; overflow: scroll;">
 							<br>
 							<div id="dateEventDisplay"></div>
 							<br>
@@ -312,9 +334,6 @@
 			todayHighlight: true,
 		});
 		$('#datepicker').datepicker("setDate", new Date());
-
-		console.log(eventData);
-		console.log(categData);
 	</script>
 
 </body>
