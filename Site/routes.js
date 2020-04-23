@@ -97,7 +97,7 @@ module.exports = function (app, db) {
 					// Load hash from your password DB.
 					let db_pass = all_data.password;
 
-					compare(req.body.password, db_pass, function (err, result) {
+					compare(req.body.loginPassword, db_pass, function (err, result) {
 						// result == true
 						if (result) {
 							console.log("login successful");
@@ -107,7 +107,7 @@ module.exports = function (app, db) {
 							req.session.email = all_data.email;
 							req.session.loggedIn = true;
 
-							let events_query = `SELECT * FROM events WHERE category&&(SELECT categories FROM user_table WHERE user_id=${req.body.user_id});`;
+							let events_query = `SELECT * FROM events WHERE category_id&&(SELECT prefs FROM users WHERE user_id=${req.body.user_id});`;
 							let cat_query = "SELECT * FROM prefs;";
 
 							db.task((t) => {
@@ -165,8 +165,6 @@ module.exports = function (app, db) {
 		console.log("Starting to hash password");
 
 		var passwd = req.body.signupPass1;
-
-		console.log(passwd);
 
 		hash(passwd, saltRounds, function (err, _hash) {
 			if (err) {
