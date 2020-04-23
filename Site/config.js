@@ -35,14 +35,15 @@ function log_routes(req, res, next) {
 }
 
 function restrict_user(req, res, next) {
-	if (req.url.indexOf("/user") == -1) return next();
+	if (req.url.indexOf("/user") == 0) {
+		if (req.session.loggedIn) {
+			console.log("User allowed to restricted user space");
+			return next();
+		}
 
-	if (req.session.loggedIn) {
-		console.log("User allowed to restricted user space");
-		return next();
+		console.log("User session not logged in, redirecting");
+		req.session.error = "Access denied!";
+		res.redirect("/");
 	}
-
-	console.log("User session not logged in, redirecting");
-	req.session.error = "Access denied!";
-	res.redirect("/");
+	return next();
 }
