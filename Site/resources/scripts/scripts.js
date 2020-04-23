@@ -29,13 +29,3 @@ function openSignUp()
 	sSection.classList.remove("hidden")
 	lSection.classList.add("hidden")
 }
-
-function updateDate(date)
-{
-	var textBox = document.getElementById('dateEventDisplay');
-	var text = "";
-
-	text = "<h5>Showing events for " + date + "</h5>";
-	
-	textBox.innerHTML = text;
-}
