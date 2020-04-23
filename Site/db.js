@@ -5,7 +5,7 @@ const dbConfig = {
 	host: "localhost",
 	database: "site_db",
 	password: "passwd",
-	port: 3211,
+	port: 5432,
 };
 
 // Create a new database instance using the config above
