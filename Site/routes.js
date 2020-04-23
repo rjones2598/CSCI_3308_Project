@@ -39,9 +39,9 @@ module.exports = function (app, db) {
 	///////////////////////////////////////////
 
 	app.get("/event/:id", function (req, res) {
-		let event_query = "SELECT * FROM events WHERE event_id=$1;";
+		let event_query = `SELECT * FROM events WHERE event_id=${req.params.id};`;
 
-		db.query(event_query, req.params.id)
+		db.all(event_query)
 			.then((events) => {
 				console.log(events);
 				// TODO: Render page with db data
@@ -86,39 +86,48 @@ module.exports = function (app, db) {
 	//////////////////////////////////////////
 
 	app.post("/login", function (req, res) {
+		console.log(req.session.loggedIn);
 		if (!req.session.loggedIn) {
-			// FIXME: Change table_name & update query
-			let password_query = "SELECT * FROM table_name WHERE username=$1;";
+			let user_query = `SELECT * FROM users WHERE username='${req.body.username}';`;
 
-			db.query(password_query, req.body.password).then((all_data) => {
-				// 	console.log(all_data);
+			db.one(user_query)
+				.then((all_data) => {
+					// 	console.log(all_data);
 
-				// Load hash from your password DB.
-				let db_pass = all_data.password;
+					// Load hash from your password DB.
+					let db_pass = all_data.password;
 
-				compare(req.body.password, db_pass, function (err, result) {
-					// result == true
-					if (result) {
-						console.log("login successful");
-						// Set session variable that can be used in other routes
-						req.session.username = all_data.username;
-						req.session.user_id = all_data.user_id;
-						req.session.email = all_data.email;
-						req.session.loggedIn = true;
+					compare(req.body.password, db_pass, function (err, result) {
+						// result == true
+						if (result) {
+							console.log("login successful");
+							// Set session variable that can be used in other routes
+							req.session.username = all_data.username;
+							req.session.user_id = all_data.user_id;
+							req.session.email = all_data.email;
+							req.session.loggedIn = true;
 
-						// TODO: Render Home page, Possibly send user logged in state too?
-						res.render("/");
+							// TODO: Render Home page, Possibly send user logged in state too?
+							res.render("profilepage");
+						} else {
+							console.log("login failed");
+							req.session.loggedIn = false;
+							res.render("login");
+						}
+					});
+				})
+				.catch((err) => {
+					if (err.code == 0) {
+						console.log("Username not found");
 					} else {
-						console.log("login failed");
-						req.session.loggedIn = false;
-						res.render("login");
+						console.log("Error Unknown", err);
 					}
+					res.redirect("/");
 				});
-			});
 		} else {
 			console.log("Already logged in!");
 			// TODO: Render Home page, Possibly send user logged in state too?
-			res.render("/");
+			res.redirect("/");
 		}
 	});
 
@@ -138,23 +147,29 @@ module.exports = function (app, db) {
 	app.post("/create/user", function (req, res) {
 		// Hash Password using bcrypt
 		hash(req.body.password, saltRounds, function (err, _hash) {
-			let new_user_query = `INSERT INTO users (username, password, email) \
-				VALUES ($1, $2, $3) WHERE NOT EXISTS (SELECT * FROM users WHERE email = $3);`;
+			if (err) {
+				console.log("Error Hashing password", err);
+				res.redirect("/");
+			}
+			let new_user_query = `INSERT INTO users (username, firstname, lastname, password, email) VALUES ('${req.body.username}', '${req.body.firstname}', '${req.body.lastname}', '${_hash}', '${req.body.email}') ON CONFLICT DO NOTHING;`;
 
-			db.query(new_user_query, req.body.username, _hash, req.body.email)
-				.then((res) => {
-					req.session.username = req.body.username;
-					// TODO: check if res contains user_id
-					// req.session.user_id = all_data.user_id;
-					req.session.email = req.body.email;
-					req.session.loggedIn = true;
+			db.any(new_user_query)
+				.then((info) => {
+					db.one(
+						`SELECT user_id FROM users WHERE email=${req.body.email}`
+					).then((user_id) => {
+						req.session.username = req.body.username;
+						req.session.user_id = user_id;
+						req.session.email = req.body.email;
+						req.session.loggedIn = true;
 
-					console.log("User Added", res);
-					res.render("UserPref");
+						console.log("New user added");
+						res.render("UserPref");
+					});
 				})
 				.catch((err) => {
 					console.log("User not added to database: Error: ", err);
-					res.render("LandingPage");
+					res.redirect("/");
 				});
 		});
 	});
