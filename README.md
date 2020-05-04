@@ -1,5 +1,8 @@
 # Group 4 Project Git
 
+Project Description:
+This software is designed to allow users to be suggested events based off of their interests. There is a database that can be populated with events and catagorize them by genre. Users are able to create an account and check off what type of events they are interested in seeing. Once filled out, the user will be suggested events through our carousel as well as a calendar. 
+
 Structure:
 -db_builder.sql
 -README.md
